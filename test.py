@@ -39,7 +39,6 @@ def run_pynguin(project_path, output_path, module_name):
         print(f"Error: No write permission for {output_path}.")
         return
 
-    # *** Modified: Reverted Pynguin parameters to original ***
     cmd = [
         sys.executable, 
         "-m", "pynguin",
@@ -190,7 +189,6 @@ def get_files(directory):
 def get_mod_name(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
 
-# *** Modified: Reverted to original directory paths ***
 SOURCE_DIR = './test/source'
 REF_OUT_DIR = './test/target'
 
@@ -202,7 +200,7 @@ make_dirs('./tests/source_tests', './pynguin-report')
 
 source_files = get_files(SOURCE_DIR)
 print(f"Source files found: {source_files}")
-# *** Modified: Get refactored files from subdirectories ***
+
 refactored_dirs = [d for d in glob.glob(os.path.join(REF_OUT_DIR, '*')) if os.path.isdir(d)]
 print(f"Refactored directories found: {refactored_dirs}")
 
@@ -211,11 +209,10 @@ for source_file in source_files:
     source_module = get_mod_name(source_file)
     source_base = os.path.basename(source_file).replace('.py', '')
     refactored_versions = []
-    # Check for directory named after source file
     source_dir = os.path.join(REF_OUT_DIR, source_base)
     if os.path.exists(source_dir):
-        # Look for PipNo_X_ files
-        for pip_no in range(1, 5):  # Check PipNo_1 to PipNo_4
+        
+        for pip_no in range(1, 5):  
             ref_file = os.path.join(source_dir, f"PipNo_{pip_no}_{source_base}.py")
             if os.path.exists(ref_file):
                 refactored_versions.append((f"PipNo_{pip_no}_{source_base}", os.path.dirname(ref_file)))
